@@ -13,8 +13,10 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');        // Additional setup if needed
+        // Load helper functions
+        require_once __DIR__.'/../src/helpers.php';
     }
 
     protected function getPackageProviders($app): array
@@ -30,5 +32,6 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
 
         config()->set('database.default', 'sqlite');
-        config()->set('database.connections.sqlite.database', ':memory:');    }
+        config()->set('database.connections.sqlite.database', ':memory:');
+    }
 }
