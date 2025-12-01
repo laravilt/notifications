@@ -36,7 +36,10 @@
     "autoload": {
         "psr-4": {
             "Laravilt\\Notifications\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -9,7 +9,7 @@ export default function NotificationsPlugin() {
             build: {
                 rollupOptions: {
                     input: {
-                        'notifications': resolve(pluginPath, 'resources/js/app.js'),
+                        'notifications': resolve(pluginPath, 'resources/js/app.ts'),
                     },
                     output: {
                         entryFileNames: 'js/[name].js',
