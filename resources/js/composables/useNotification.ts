@@ -25,12 +25,24 @@ export function useNotification() {
     const notify = (
         titleOrMessage: string | Notification,
         body?: string,
-        type: 'success' | 'error' | 'warning' | 'info' = 'success',
+        type: 'success' | 'error' | 'warning' | 'info' | 'danger' | 'primary' | 'secondary' | 'gray' | 'purple' | 'indigo' = 'success',
         options: Partial<Notification> = {}
     ) => {
         const id = `notification-${++notificationId}`;
 
         let notification: Notification;
+
+        // Map color aliases to types or use custom colors
+        const typeColorMap: Record<string, { type?: string; color?: string }> = {
+            'danger': { type: 'error', color: 'danger' },
+            'primary': { color: 'primary' },
+            'secondary': { color: 'secondary' },
+            'gray': { color: 'secondary' },
+            'purple': { color: 'purple' },
+            'indigo': { color: 'indigo' },
+        };
+
+        const mappedTypeOrColor = typeColorMap[type] || { type };
 
         if (typeof titleOrMessage === 'object') {
             // Full notification object passed
@@ -41,7 +53,8 @@ export function useNotification() {
                 id,
                 title: titleOrMessage,
                 body,
-                type,
+                type: mappedTypeOrColor.type as any,
+                color: mappedTypeOrColor.color,
                 ...options,
             };
         } else {
@@ -49,7 +62,8 @@ export function useNotification() {
             notification = {
                 id,
                 message: titleOrMessage,
-                type,
+                type: mappedTypeOrColor.type as any,
+                color: mappedTypeOrColor.color,
                 ...options,
             };
         }
@@ -84,7 +98,7 @@ export function useNotification() {
 export function notify(
     titleOrMessage: string | Notification,
     body?: string,
-    type: 'success' | 'error' | 'warning' | 'info' = 'success',
+    type: 'success' | 'error' | 'warning' | 'info' | 'danger' | 'primary' | 'secondary' | 'gray' | 'purple' | 'indigo' = 'success',
     options: Partial<Notification> = {}
 ) {
     return useNotification().notify(titleOrMessage, body, type, options);

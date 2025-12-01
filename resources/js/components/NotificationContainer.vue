@@ -68,10 +68,10 @@ import { useNotification } from '../composables/useNotification';
 const { notifications, remove } = useNotification();
 
 const notificationClasses = {
-    success: 'bg-green-50 text-green-800 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800',
-    error: 'bg-red-50 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800',
-    warning: 'bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800',
-    info: 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800',
+    success: 'bg-green-50 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-400 dark:border-green-800',
+    error: 'bg-red-50 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-400 dark:border-red-800',
+    warning: 'bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-400 dark:border-yellow-800',
+    info: 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-400 dark:border-blue-800',
 };
 
 const defaultIcons = {
@@ -97,11 +97,11 @@ const getIcon = (notification: any) => {
 
 const getCustomColorClasses = (color: string) => {
     const colorMap: Record<string, string> = {
-        primary: 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400 dark:border-blue-800',
-        secondary: 'bg-gray-50 text-gray-800 border-gray-200 dark:bg-gray-900/20 dark:text-gray-400 dark:border-gray-800',
-        danger: 'bg-red-50 text-red-800 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800',
-        purple: 'bg-purple-50 text-purple-800 border-purple-200 dark:bg-purple-900/20 dark:text-purple-400 dark:border-purple-800',
-        indigo: 'bg-indigo-50 text-indigo-800 border-indigo-200 dark:bg-indigo-900/20 dark:text-indigo-400 dark:border-indigo-800',
+        primary: 'bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-900 dark:text-blue-400 dark:border-blue-800',
+        secondary: 'bg-gray-50 text-gray-800 border-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-800',
+        danger: 'bg-red-50 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-400 dark:border-red-800',
+        purple: 'bg-purple-50 text-purple-800 border-purple-200 dark:bg-purple-900 dark:text-purple-400 dark:border-purple-800',
+        indigo: 'bg-indigo-50 text-indigo-800 border-indigo-200 dark:bg-indigo-900 dark:text-indigo-400 dark:border-indigo-800',
     };
 
     return colorMap[color] || notificationClasses.success;
