@@ -84,7 +84,6 @@
         "vue-tsc": "^2.2.4"
     },
     "dependencies": {
-        "@laravilt/notifications": "file:laravilt-notifications-1.0.0.tgz",
         "tailwindcss": "^4.1.1"
     }
 }
