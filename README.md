@@ -1,4 +1,4 @@
-![Notifications](./arts/screenshot.jpg)
+![Notifications](https://raw.githubusercontent.com/laravilt/notifications/master/arts/screenshot.jpg)
 
 # Laravilt Notifications
 
