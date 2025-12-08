@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "XSRF-TOKEN",
+      "value": "eyJpdiI6IktDaVU1SlFzdFBLQ09JWlNBRnpvRFE9PSIsInZhbHVlIjoiVCs4OGh0OFZxWlRUOHdSRzI0VStFc0hxaXdidWtjWVNVQWR0bUZPcnR2MEIrTnRlcEdwclJRVEZ6TWI4QlVibE1vTjhhOWRleEJMQlFoa1RtTlA0RnowVnJjbk5ka0lHRzd1azl0aEJBTWhZWERXQTRQMDk4QU9VNk9wbFFWcUQiLCJtYWMiOiJiYWVkZTQwOWQxZDg2MWVjNzY4MGE1ZTIyMDBlOGVhOTM5MWZkZGIwYTc0ODZmOWVjMjNlOThiYjRiOTQwYzE0IiwidGFnIjoiIn0%3D",
+      "domain": "laravilt.test",
+      "path": "/",
+      "expires": 1764984523.028642,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "laravel-session",
+      "value": "eyJpdiI6IjU4SkE5Q2hpYzFBQzhISDlmUmRTZEE9PSIsInZhbHVlIjoiemg0RmtyMjRndW80blZnN2o5bjNRSC9nY1dmYTVQSHpHUlF2MFo4OVBGZGYxNTN0ODA0SW9DUXlObnhuNVRSVHJ3L2xDZ1F3bHl2ekZNSW5zRkxNdEN0eTRKaDZGT3Z4bVU1djlrMnNLK1ZNMXFKWGhialk3S2VJanFUQ2phV2siLCJtYWMiOiJmOGI4OGM5OGM2MGRhY2JjZjgxNDA0YzhlYzk5MWIxMzhkZWExZDM1NzkzZGNkMWU1ZDljZjQzMjFhNWNlZTBkIiwidGFnIjoiIn0%3D",
+      "domain": "laravilt.test",
+      "path": "/",
+      "expires": 1764984523.028689,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://laravilt.test",
+      "localStorage": [
+        {
+          "name": "phpdebugbar-height",
+          "value": "300"
+        }
+      ]
+    }
+  ]
+}

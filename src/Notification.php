@@ -8,6 +8,7 @@ use Laravilt\Notifications\Concerns\HasBody;
 use Laravilt\Notifications\Concerns\HasColor;
 use Laravilt\Notifications\Concerns\HasDuration;
 use Laravilt\Notifications\Concerns\HasIcon;
+use Laravilt\Notifications\Concerns\HasPosition;
 use Laravilt\Notifications\Concerns\HasTitle;
 
 class Notification implements Arrayable
@@ -17,6 +18,7 @@ class Notification implements Arrayable
     use HasColor;
     use HasDuration;
     use HasIcon;
+    use HasPosition;
     use HasTitle;
 
     protected ?string $id = null;
@@ -134,6 +136,7 @@ class Notification implements Arrayable
             'duration' => $this->getDuration(),
             'persistent' => $this->isPersistent(),
             'dismissible' => $this->isDismissible(),
+            'position' => $this->getPosition(),
             'actions' => $this->getActions(),
             'data' => $this->getData(),
         ];

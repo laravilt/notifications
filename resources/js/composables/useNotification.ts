@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, ref, type Ref } from 'vue';
 
 interface NotificationAction {
     label: string;
@@ -18,17 +18,68 @@ interface Notification {
     duration?: number;
 }
 
-const notifications = reactive<Notification[]>([]);
-let notificationId = 0;
+// Use a global key to ensure singleton across module instances
+const NOTIFICATIONS_KEY = '__laravilt_notifications__';
+const NOTIFICATION_ID_KEY = '__laravilt_notification_id__';
+
+// Declare global types
+declare global {
+    interface Window {
+        [NOTIFICATIONS_KEY]?: Notification[];
+        [NOTIFICATION_ID_KEY]?: number;
+    }
+}
+
+// Initialize global state if not exists
+if (typeof window !== 'undefined') {
+    if (!window[NOTIFICATIONS_KEY]) {
+        window[NOTIFICATIONS_KEY] = reactive<Notification[]>([]);
+    }
+    if (window[NOTIFICATION_ID_KEY] === undefined) {
+        window[NOTIFICATION_ID_KEY] = 0;
+    }
+}
+
+// Use a ref key for proper Vue reactivity
+const NOTIFICATIONS_REF_KEY = '__laravilt_notifications_ref__';
+
+declare global {
+    interface Window {
+        [NOTIFICATIONS_REF_KEY]?: Ref<Notification[]>;
+    }
+}
+
+// Get the shared reactive notifications ref
+const getNotificationsRef = (): Ref<Notification[]> => {
+    if (typeof window !== 'undefined') {
+        if (!window[NOTIFICATIONS_REF_KEY]) {
+            window[NOTIFICATIONS_REF_KEY] = ref<Notification[]>([]);
+        }
+        return window[NOTIFICATIONS_REF_KEY];
+    }
+    // Fallback for SSR
+    return ref<Notification[]>([]);
+};
+
+const getNextId = (): number => {
+    if (typeof window !== 'undefined') {
+        window[NOTIFICATION_ID_KEY] = (window[NOTIFICATION_ID_KEY] || 0) + 1;
+        return window[NOTIFICATION_ID_KEY];
+    }
+    return Date.now();
+};
 
 export function useNotification() {
+    // Get the shared notifications ref
+    const notificationsRef = getNotificationsRef();
+
     const notify = (
         titleOrMessage: string | Notification,
         body?: string,
         type: 'success' | 'error' | 'warning' | 'info' | 'danger' | 'primary' | 'secondary' | 'gray' | 'purple' | 'indigo' = 'success',
         options: Partial<Notification> = {}
     ) => {
-        const id = `notification-${++notificationId}`;
+        const id = `notification-${getNextId()}`;
 
         let notification: Notification;
 
@@ -73,7 +124,7 @@ export function useNotification() {
             notification.duration = 3000;
         }
 
-        notifications.push(notification);
+        notificationsRef.value.push(notification);
 
         if (notification.duration && notification.duration > 0) {
             setTimeout(() => remove(id), notification.duration);
@@ -83,15 +134,15 @@ export function useNotification() {
     };
 
     const remove = (id: string) => {
-        const index = notifications.findIndex((n) => n.id === id);
-        if (index > -1) notifications.splice(index, 1);
+        const index = notificationsRef.value.findIndex((n) => n.id === id);
+        if (index > -1) notificationsRef.value.splice(index, 1);
     };
 
     const clear = () => {
-        notifications.splice(0, notifications.length);
+        notificationsRef.value.splice(0, notificationsRef.value.length);
     };
 
-    return { notifications, notify, remove, clear };
+    return { notifications: notificationsRef, notify, remove, clear };
 }
 
 // Backward compatible notify function

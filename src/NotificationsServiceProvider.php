@@ -29,9 +29,6 @@ class NotificationsServiceProvider extends ServiceProvider
         // Load translations
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'notifications');
 
-        // Load migrations
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-
         if ($this->app->runningInConsole()) {
             // Publish config
             $this->publishes([
@@ -47,11 +44,6 @@ class NotificationsServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/notifications'),
             ], 'notifications-views');
-
-            // Publish migrations
-            $this->publishes([
-                __DIR__.'/../database/migrations' => database_path('migrations'),
-            ], 'notifications-migrations');
         }
     }
 }
