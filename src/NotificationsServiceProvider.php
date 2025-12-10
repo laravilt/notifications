@@ -27,7 +27,7 @@ class NotificationsServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'notifications');
 
         // Load translations
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'notifications');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'notifications');
 
         if ($this->app->runningInConsole()) {
             // Publish config

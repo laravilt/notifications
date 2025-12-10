@@ -126,11 +126,13 @@ export function useNotification() {
 
         notificationsRef.value.push(notification);
 
+        // Use notification.id (which may be overridden by backend id) for the timeout
+        const notificationId = notification.id;
         if (notification.duration && notification.duration > 0) {
-            setTimeout(() => remove(id), notification.duration);
+            setTimeout(() => remove(notificationId), notification.duration);
         }
 
-        return id;
+        return notificationId;
     };
 
     const remove = (id: string) => {
