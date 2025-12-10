@@ -1,0 +1,97 @@
+{
+  "name": "laravilt-notifications",
+  "version": "1.0.0",
+  "description": "MCP Server for Laravilt Notifications Package",
+  "mcpServers": {
+    "laravilt-notifications-docs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "./docs"
+      ],
+      "metadata": {
+        "description": "Provides access to Laravilt Notifications package documentation",
+        "categories": ["notifications", "alerts", "toast", "realtime"]
+      }
+    }
+  },
+  "resources": [
+    {
+      "uri": "laravilt://notifications/docs/index",
+      "name": "Laravilt Notifications Documentation",
+      "description": "Complete documentation for the Laravilt Notifications package",
+      "mimeType": "text/markdown"
+    },
+    {
+      "uri": "laravilt://notifications/types",
+      "name": "Notification Types Guide",
+      "description": "Guide for different notification types (success, error, warning, info)",
+      "mimeType": "text/markdown"
+    },
+    {
+      "uri": "laravilt://notifications/database",
+      "name": "Database Notifications",
+      "description": "Guide for persisting notifications to the database",
+      "mimeType": "text/markdown"
+    }
+  ],
+  "tools": [
+    {
+      "name": "create_notification",
+      "description": "Create a new notification",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["success", "error", "warning", "info"],
+            "description": "Notification type"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notification title"
+          },
+          "body": {
+            "type": "string",
+            "description": "Notification message body"
+          },
+          "persistent": {
+            "type": "boolean",
+            "description": "Whether to persist to database"
+          }
+        },
+        "required": ["type", "title"]
+      }
+    },
+    {
+      "name": "search_notification_docs",
+      "description": "Search the Laravilt Notifications documentation",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query"
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "get_notification_example",
+      "description": "Get example code for notifications",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "feature": {
+            "type": "string",
+            "enum": ["basic", "database", "actions", "broadcast"],
+            "description": "Feature to get example for"
+          }
+        },
+        "required": ["feature"]
+      }
+    }
+  ]
+}

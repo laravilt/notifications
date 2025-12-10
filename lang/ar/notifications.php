@@ -1,49 +1,27 @@
 <?php
 
 return [
-    // Types
-    'types' => [
-        'success' => 'نجاح',
-        'error' => 'خطأ',
-        'warning' => 'تحذير',
+    'title' => 'الإشعارات',
+    'no_notifications' => 'لا توجد إشعارات',
+    'unread_count' => ':count غير مقروء',
+    'mark_all_read' => 'تحديد الكل كمقروء',
+    'mark_as_read' => 'تحديد كمقروء',
+    'delete' => 'حذف',
+    'delete_all' => 'حذف الكل',
+    'clear_all' => 'مسح الكل',
+    'view_all' => 'عرض جميع الإشعارات',
+    'just_now' => 'الآن',
+    'minutes_ago' => 'منذ :count دقيقة',
+    'hours_ago' => 'منذ :count ساعة',
+    'days_ago' => 'منذ :count يوم',
+    'empty_state' => [
+        'title' => 'لا يوجد جديد!',
+        'description' => 'ليس لديك إشعارات في الوقت الحالي.',
+    ],
+    'status' => [
         'info' => 'معلومات',
-    ],
-
-    // Short titles
-    'success' => 'نجاح',
-    'error' => 'خطأ',
-
-    // Record messages
-    'record_created' => 'تم إنشاء السجل.',
-    'record_updated' => 'تم حفظ التغييرات.',
-    'record_deleted' => 'تم حذف السجل.',
-
-    // Default Messages
-    'messages' => [
-        'saved' => 'تم الحفظ بنجاح',
-        'created' => 'تم الإنشاء بنجاح',
-        'updated' => 'تم التحديث بنجاح',
-        'deleted' => 'تم الحذف بنجاح',
-        'restored' => 'تم الاستعادة بنجاح',
-        'error' => 'حدث خطأ',
-        'loading' => 'جاري التحميل...',
-    ],
-
-    // Actions
-    'actions' => [
-        'undo' => 'تراجع',
-        'dismiss' => 'إغلاق',
-        'view' => 'عرض',
-        'retry' => 'إعادة المحاولة',
-    ],
-
-    // Toast Positions
-    'positions' => [
-        'top_right' => 'أعلى اليمين',
-        'top_left' => 'أعلى اليسار',
-        'bottom_right' => 'أسفل اليمين',
-        'bottom_left' => 'أسفل اليسار',
-        'top_center' => 'أعلى الوسط',
-        'bottom_center' => 'أسفل الوسط',
+        'success' => 'نجاح',
+        'warning' => 'تحذير',
+        'danger' => 'خطأ',
     ],
 ];
