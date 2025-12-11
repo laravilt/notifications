@@ -24,4 +24,18 @@ return [
         'warning' => 'Warning',
         'danger' => 'Error',
     ],
+
+    // Action notification messages
+    'success' => 'Success',
+    'error' => 'Error',
+    'warning' => 'Warning',
+    'info' => 'Info',
+
+    // Record operation messages
+    'record_created' => 'Record created successfully',
+    'record_updated' => 'Record updated successfully',
+    'record_deleted' => 'Record deleted successfully',
+    'record_restored' => 'Record restored successfully',
+    'records_deleted' => 'Records deleted successfully',
+    'records_restored' => 'Records restored successfully',
 ];

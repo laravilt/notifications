@@ -1,87 +1,90 @@
 <template>
-    <!-- Top Right (default) - uses end-4 for RTL support -->
-    <div class="fixed top-4 end-4 z-[9999] flex flex-col gap-2 pointer-events-none max-w-md">
-        <TransitionGroup name="notification">
-            <NotificationItem
-                v-for="notification in topRightNotifications"
-                :key="notification.id"
-                :notification="notification"
-                :get-icon="getIcon"
-                :get-color-classes="getColorClasses"
-                @remove="remove"
-            />
-        </TransitionGroup>
-    </div>
+    <!-- Teleport to body to escape stacking context issues with sidebar -->
+    <Teleport to="body">
+        <!-- Top Right (default) - uses end-4 for RTL support -->
+        <div class="fixed top-4 end-4 z-[9999] flex flex-col gap-2 pointer-events-none max-w-md">
+            <TransitionGroup name="notification">
+                <NotificationItem
+                    v-for="notification in topRightNotifications"
+                    :key="notification.id"
+                    :notification="notification"
+                    :get-icon="getIcon"
+                    :get-color-classes="getColorClasses"
+                    @remove="remove"
+                />
+            </TransitionGroup>
+        </div>
 
-    <!-- Top Left - uses start-4 for RTL support -->
-    <div class="fixed top-4 start-4 z-[9999] flex flex-col gap-2 pointer-events-none max-w-md">
-        <TransitionGroup name="notification-left">
-            <NotificationItem
-                v-for="notification in topLeftNotifications"
-                :key="notification.id"
-                :notification="notification"
-                :get-icon="getIcon"
-                :get-color-classes="getColorClasses"
-                @remove="remove"
-            />
-        </TransitionGroup>
-    </div>
+        <!-- Top Left - uses start-4 for RTL support -->
+        <div class="fixed top-4 start-4 z-[9999] flex flex-col gap-2 pointer-events-none max-w-md">
+            <TransitionGroup name="notification-left">
+                <NotificationItem
+                    v-for="notification in topLeftNotifications"
+                    :key="notification.id"
+                    :notification="notification"
+                    :get-icon="getIcon"
+                    :get-color-classes="getColorClasses"
+                    @remove="remove"
+                />
+            </TransitionGroup>
+        </div>
 
-    <!-- Bottom Right - uses end-4 for RTL support -->
-    <div class="fixed bottom-4 end-4 z-[9999] flex flex-col-reverse gap-2 pointer-events-none max-w-md">
-        <TransitionGroup name="notification">
-            <NotificationItem
-                v-for="notification in bottomRightNotifications"
-                :key="notification.id"
-                :notification="notification"
-                :get-icon="getIcon"
-                :get-color-classes="getColorClasses"
-                @remove="remove"
-            />
-        </TransitionGroup>
-    </div>
+        <!-- Bottom Right - uses end-4 for RTL support -->
+        <div class="fixed bottom-4 end-4 z-[9999] flex flex-col-reverse gap-2 pointer-events-none max-w-md">
+            <TransitionGroup name="notification">
+                <NotificationItem
+                    v-for="notification in bottomRightNotifications"
+                    :key="notification.id"
+                    :notification="notification"
+                    :get-icon="getIcon"
+                    :get-color-classes="getColorClasses"
+                    @remove="remove"
+                />
+            </TransitionGroup>
+        </div>
 
-    <!-- Bottom Left - uses start-4 for RTL support -->
-    <div class="fixed bottom-4 start-4 z-[9999] flex flex-col-reverse gap-2 pointer-events-none max-w-md">
-        <TransitionGroup name="notification-left">
-            <NotificationItem
-                v-for="notification in bottomLeftNotifications"
-                :key="notification.id"
-                :notification="notification"
-                :get-icon="getIcon"
-                :get-color-classes="getColorClasses"
-                @remove="remove"
-            />
-        </TransitionGroup>
-    </div>
+        <!-- Bottom Left - uses start-4 for RTL support -->
+        <div class="fixed bottom-4 start-4 z-[9999] flex flex-col-reverse gap-2 pointer-events-none max-w-md">
+            <TransitionGroup name="notification-left">
+                <NotificationItem
+                    v-for="notification in bottomLeftNotifications"
+                    :key="notification.id"
+                    :notification="notification"
+                    :get-icon="getIcon"
+                    :get-color-classes="getColorClasses"
+                    @remove="remove"
+                />
+            </TransitionGroup>
+        </div>
 
-    <!-- Top Center -->
-    <div class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-2 pointer-events-none max-w-md">
-        <TransitionGroup name="notification-center">
-            <NotificationItem
-                v-for="notification in topCenterNotifications"
-                :key="notification.id"
-                :notification="notification"
-                :get-icon="getIcon"
-                :get-color-classes="getColorClasses"
-                @remove="remove"
-            />
-        </TransitionGroup>
-    </div>
+        <!-- Top Center -->
+        <div class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-2 pointer-events-none max-w-md">
+            <TransitionGroup name="notification-center">
+                <NotificationItem
+                    v-for="notification in topCenterNotifications"
+                    :key="notification.id"
+                    :notification="notification"
+                    :get-icon="getIcon"
+                    :get-color-classes="getColorClasses"
+                    @remove="remove"
+                />
+            </TransitionGroup>
+        </div>
 
-    <!-- Bottom Center -->
-    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col-reverse gap-2 pointer-events-none max-w-md">
-        <TransitionGroup name="notification-center">
-            <NotificationItem
-                v-for="notification in bottomCenterNotifications"
-                :key="notification.id"
-                :notification="notification"
-                :get-icon="getIcon"
-                :get-color-classes="getColorClasses"
-                @remove="remove"
-            />
-        </TransitionGroup>
-    </div>
+        <!-- Bottom Center -->
+        <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex flex-col-reverse gap-2 pointer-events-none max-w-md">
+            <TransitionGroup name="notification-center">
+                <NotificationItem
+                    v-for="notification in bottomCenterNotifications"
+                    :key="notification.id"
+                    :notification="notification"
+                    :get-icon="getIcon"
+                    :get-color-classes="getColorClasses"
+                    @remove="remove"
+                />
+            </TransitionGroup>
+        </div>
+    </Teleport>
 </template>
 
 <script setup lang="ts">

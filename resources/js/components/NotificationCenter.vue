@@ -69,10 +69,10 @@ const notifications = ref<DatabaseNotification[]>([]);
 const unreadCount = ref(0);
 let pollingTimer: ReturnType<typeof setInterval> | null = null;
 
-const panelPath = computed(() => page.props.panel?.path || '');
-const hasDatabaseNotifications = computed(() => page.props.panel?.hasDatabaseNotifications || false);
+const panelPath = computed(() => page.props?.panel?.path || '');
+const hasDatabaseNotifications = computed(() => page.props?.panel?.hasDatabaseNotifications || false);
 const pollingMs = computed(() => {
-    const interval = props.pollingInterval || page.props.panel?.databaseNotificationsPolling || '30s';
+    const interval = props.pollingInterval || page.props?.panel?.databaseNotificationsPolling || '30s';
     if (!interval) return 30000;
 
     const match = interval.match(/^(\d+)(s|m)?$/);
@@ -218,7 +218,7 @@ const stopPolling = () => {
 
 // Watch for initial data from page props
 watch(
-    () => page.props.databaseNotifications,
+    () => page.props?.databaseNotifications,
     (data) => {
         if (data) {
             notifications.value = data.notifications || [];
