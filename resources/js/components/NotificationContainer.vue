@@ -119,7 +119,7 @@ const mapStatusToType = (notification: any) => {
 
 // Watch for notifications from Inertia (from session)
 watch(
-    () => page.props.notifications as any[],
+    () => (page.props?.notifications ?? []) as any[],
     (newNotifications) => {
         if (newNotifications && Array.isArray(newNotifications) && newNotifications.length > 0) {
             newNotifications.forEach((notification) => {
