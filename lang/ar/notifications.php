@@ -38,4 +38,5 @@ return [
     'record_restored' => 'تم استعادة السجل بنجاح',
     'records_deleted' => 'تم حذف السجلات بنجاح',
     'records_restored' => 'تم استعادة السجلات بنجاح',
+    'records_reordered' => 'تم إعادة ترتيب :count سجل بنجاح',
 ];

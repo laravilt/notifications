@@ -124,8 +124,6 @@ export function setupNotificationCookieCheck() {
         setTimeout(processNotificationCookie, 100);
         return response;
     };
-
-    console.log('[Laravilt Notifications] Cookie check initialized');
 }
 
 // Auto-initialize if in browser

@@ -1,7 +1,7 @@
 {
     "name": "laravilt/notifications",
     "description": "Complete notification system with toast messages, colors, icons, and actions. Display beautiful toast notifications with success, danger, warning, and info states. Supports dismissible notifications, custom durations, and action buttons.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "library",
     "license": "MIT",
     "keywords": [

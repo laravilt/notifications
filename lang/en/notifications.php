@@ -38,4 +38,5 @@ return [
     'record_restored' => 'Record restored successfully',
     'records_deleted' => 'Records deleted successfully',
     'records_restored' => 'Records restored successfully',
+    'records_reordered' => ':count records reordered successfully',
 ];
