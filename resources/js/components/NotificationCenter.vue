@@ -259,7 +259,7 @@ onUnmounted(() => {
                 <span class="sr-only">{{ trans('notifications::notifications.title') }}</span>
             </Button>
         </SheetTrigger>
-        <SheetContent side="right" class="w-full sm:max-w-md flex flex-col">
+        <SheetContent side="right" class="w-full sm:max-w-md flex flex-col" hide-close-button>
             <SheetHeader class="border-b pb-4">
                 <div class="flex items-center justify-between">
                     <SheetTitle class="flex items-center gap-2">
@@ -292,19 +292,25 @@ onUnmounted(() => {
                 </div>
             </SheetHeader>
 
-            <div class="flex-1 overflow-y-auto -mx-6 px-6">
+            <div class="flex-1 overflow-y-auto">
                 <div v-if="notifications.length === 0" class="flex flex-col items-center justify-center py-12 text-muted-foreground">
                     <BellOff class="h-12 w-12 mb-4 opacity-50" />
                     <p class="text-sm">{{ trans('notifications::notifications.no_notifications') }}</p>
                 </div>
 
-                <div v-else class="space-y-2 py-4">
+                <div v-else class="divide-y">
                     <div
                         v-for="notification in notifications"
                         :key="notification.id"
-                        class="group relative flex gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50"
+                        class="group relative flex gap-3 p-4 transition-colors hover:bg-muted/50"
                         :class="{ 'bg-muted/30': !notification.readAt }"
                     >
+                        <!-- Unread indicator -->
+                        <div
+                            v-if="!notification.readAt"
+                            class="absolute left-0 top-0 bottom-0 w-1 bg-primary"
+                        />
+
                         <div class="flex-shrink-0 mt-0.5">
                             <component
                                 :is="getStatusIcon(notification.status)"
@@ -314,42 +320,40 @@ onUnmounted(() => {
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-start justify-between gap-2">
-                                <p class="font-medium text-sm" :class="{ 'font-semibold': !notification.readAt }">
+                                <p class="font-medium text-sm leading-5" :class="{ 'font-semibold': !notification.readAt }">
                                     {{ notification.title || 'Notification' }}
                                 </p>
-                                <span class="text-xs text-muted-foreground whitespace-nowrap">
-                                    {{ notification.humanTime }}
-                                </span>
+                                <div class="flex items-center gap-1 flex-shrink-0">
+                                    <span class="text-xs text-muted-foreground whitespace-nowrap">
+                                        {{ notification.humanTime }}
+                                    </span>
+                                    <div class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Button
+                                            v-if="!notification.readAt"
+                                            variant="ghost"
+                                            size="icon"
+                                            class="h-6 w-6"
+                                            @click.stop="markAsRead(notification.id)"
+                                            :title="trans('notifications::notifications.mark_as_read')"
+                                        >
+                                            <Check class="h-3.5 w-3.5" />
+                                        </Button>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            class="h-6 w-6 text-muted-foreground hover:text-destructive"
+                                            @click.stop="deleteNotification(notification.id)"
+                                            :title="trans('notifications::notifications.delete')"
+                                        >
+                                            <X class="h-3.5 w-3.5" />
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
-                            <p v-if="notification.body" class="text-sm text-muted-foreground mt-1 line-clamp-2">
+                            <p v-if="notification.body" class="text-sm text-muted-foreground mt-1 leading-relaxed">
                                 {{ notification.body }}
                             </p>
                         </div>
-                        <div class="flex-shrink-0 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button
-                                v-if="!notification.readAt"
-                                variant="ghost"
-                                size="icon"
-                                class="h-7 w-7"
-                                @click.stop="markAsRead(notification.id)"
-                                :title="trans('notifications::notifications.mark_as_read')"
-                            >
-                                <Check class="h-4 w-4" />
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                class="h-7 w-7"
-                                @click.stop="deleteNotification(notification.id)"
-                                :title="trans('notifications::notifications.delete')"
-                            >
-                                <X class="h-4 w-4" />
-                            </Button>
-                        </div>
-                        <div
-                            v-if="!notification.readAt"
-                            class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r"
-                        />
                     </div>
                 </div>
             </div>
