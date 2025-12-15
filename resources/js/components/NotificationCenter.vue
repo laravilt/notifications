@@ -202,6 +202,44 @@ const deleteAllNotifications = async () => {
     }
 };
 
+const handleAction = async (notification: DatabaseNotification, action: any) => {
+    // Mark as read first
+    if (!notification.readAt) {
+        await markAsRead(notification.id);
+    }
+
+    // If action has a method (POST, etc.), make the request
+    if (action.method && action.route) {
+        try {
+            const response = await fetch(action.route, {
+                method: action.method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                },
+                body: action.data ? JSON.stringify(action.data) : undefined,
+            });
+
+            if (response.ok) {
+                // Remove notification after successful action
+                if (action.closeOnClick !== false) {
+                    await deleteNotification(notification.id);
+                }
+                // Optionally reload the page or update state
+                if (action.redirect) {
+                    window.location.href = action.redirect;
+                } else if (action.reload) {
+                    window.location.reload();
+                }
+            }
+        } catch (error) {
+            console.error('Failed to execute action:', error);
+        }
+    } else if (action.onClick && typeof action.onClick === 'function') {
+        action.onClick();
+    }
+};
+
 const startPolling = () => {
     if (pollingTimer) clearInterval(pollingTimer);
     if (!hasDatabaseNotifications.value) return;
@@ -353,6 +391,44 @@ onUnmounted(() => {
                             <p v-if="notification.body" class="text-sm text-muted-foreground mt-1 leading-relaxed">
                                 {{ notification.body }}
                             </p>
+                            <!-- Actions -->
+                            <div v-if="notification.actions && notification.actions.length > 0" class="flex flex-wrap gap-2 mt-3">
+                                <template v-for="(action, index) in notification.actions" :key="index">
+                                    <a
+                                        v-if="action.url"
+                                        :href="action.url"
+                                        @click="() => { if (!notification.readAt) markAsRead(notification.id); }"
+                                        :class="[
+                                            'inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors',
+                                            action.color === 'danger' || action.variant === 'destructive'
+                                                ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                                                : action.variant === 'outline'
+                                                ? 'border border-input bg-background hover:bg-accent hover:text-accent-foreground'
+                                                : action.variant === 'ghost'
+                                                ? 'hover:bg-accent hover:text-accent-foreground'
+                                                : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                        ]"
+                                    >
+                                        {{ action.label }}
+                                    </a>
+                                    <button
+                                        v-else
+                                        @click="handleAction(notification, action)"
+                                        :class="[
+                                            'inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors',
+                                            action.color === 'danger' || action.variant === 'destructive'
+                                                ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'
+                                                : action.variant === 'outline'
+                                                ? 'border border-input bg-background hover:bg-accent hover:text-accent-foreground'
+                                                : action.variant === 'ghost'
+                                                ? 'hover:bg-accent hover:text-accent-foreground'
+                                                : 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                        ]"
+                                    >
+                                        {{ action.label }}
+                                    </button>
+                                </template>
+                            </div>
                         </div>
                     </div>
                 </div>
