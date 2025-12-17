@@ -298,6 +298,15 @@ onUnmounted(() => {
             </Button>
         </SheetTrigger>
         <SheetContent side="right" class="w-full sm:max-w-md flex flex-col" hide-close-button>
+            <!-- Mobile close button -->
+            <button
+                @click="isOpen = false"
+                class="sm:hidden absolute top-4 end-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            >
+                <X class="h-4 w-4" />
+                <span class="sr-only">{{ trans('notifications::notifications.close') }}</span>
+            </button>
+
             <SheetHeader class="border-b pb-4">
                 <div class="flex items-center justify-between">
                     <SheetTitle class="flex items-center gap-2">
