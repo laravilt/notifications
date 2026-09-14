@@ -3,6 +3,7 @@
 namespace Laravilt\Notifications\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravilt\Notifications\NotificationsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -22,7 +23,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            \Laravilt\Notifications\NotificationsServiceProvider::class,
+            NotificationsServiceProvider::class,
         ];
     }
 
