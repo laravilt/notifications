@@ -125,7 +125,7 @@ const fetchNotifications = async () => {
 
 const markAsRead = async (id: string) => {
     try {
-        await fetch(`/${panelPath.value}/notifications/${id}/read`, {
+        const response = await fetch(`/${panelPath.value}/notifications/${id}/read`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -133,8 +133,13 @@ const markAsRead = async (id: string) => {
             },
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
         const notification = notifications.value.find((n) => n.id === id);
-        if (notification) {
+        // Only an unread -> read transition decrements (concurrent requests for the same id resolve twice)
+        if (notification && !notification.readAt) {
             notification.readAt = new Date().toISOString();
             unreadCount.value = Math.max(0, unreadCount.value - 1);
         }
@@ -145,13 +150,17 @@ const markAsRead = async (id: string) => {
 
 const markAllAsRead = async () => {
     try {
-        await fetch(`/${panelPath.value}/notifications/read-all`, {
+        const response = await fetch(`/${panelPath.value}/notifications/read-all`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
             },
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
         notifications.value.forEach((n) => {
             n.readAt = new Date().toISOString();
@@ -164,13 +173,17 @@ const markAllAsRead = async () => {
 
 const deleteNotification = async (id: string) => {
     try {
-        await fetch(`/${panelPath.value}/notifications/${id}`, {
+        const response = await fetch(`/${panelPath.value}/notifications/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
             },
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
         const index = notifications.value.findIndex((n) => n.id === id);
         if (index !== -1) {
@@ -187,13 +200,17 @@ const deleteNotification = async (id: string) => {
 
 const deleteAllNotifications = async () => {
     try {
-        await fetch(`/${panelPath.value}/notifications`, {
+        const response = await fetch(`/${panelPath.value}/notifications`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
             },
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
         notifications.value = [];
         unreadCount.value = 0;

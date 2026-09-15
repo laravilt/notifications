@@ -20,11 +20,24 @@ interface ToastNotification {
 const page = usePage();
 const toasts = ref<ToastNotification[]>([]);
 
+// Inertia keeps omitted props on partial reloads, so the same flash can be read again on `finish`.
+// Skip it instead of appending a second toast with the same id (and v-for key).
+let lastFlashId: string | null = null;
+
+const addFlashToast = (notification: ToastNotification) => {
+    if (lastFlashId === notification.id) {
+        return;
+    }
+
+    lastFlashId = notification.id;
+    addToast(notification);
+};
+
 // Check for flash notification from session
 onMounted(() => {
     const flashNotification = (page.props as any)['laravilt.notification'];
     if (flashNotification) {
-        addToast(flashNotification);
+        addFlashToast(flashNotification);
     }
 });
 
@@ -32,7 +45,7 @@ onMounted(() => {
 const removeFinishListener = router.on('finish', () => {
     const flashNotification = (page.props as any)['laravilt.notification'];
     if (flashNotification) {
-        addToast(flashNotification);
+        addFlashToast(flashNotification);
     }
 });
 
