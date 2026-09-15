@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { cn } from '@/lib/utils';
 import { useLatest } from '@laravilt/support/composables/hooks';
 import { useLocalization } from '@laravilt/support/composables/useLocalization';
+import { notify } from '../composables/useNotification';
 
 export interface DatabaseNotification {
     id: string;
@@ -161,6 +162,7 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
             }
         } catch (error) {
             console.error('Failed to mark notification as read:', error);
+            notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
         }
     };
 
@@ -183,6 +185,7 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
             setUnreadCount(0);
         } catch (error) {
             console.error('Failed to mark all notifications as read:', error);
+            notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
         }
     };
 
@@ -215,6 +218,7 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
             }
         } catch (error) {
             console.error('Failed to delete notification:', error);
+            notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
         }
     };
 
@@ -236,6 +240,7 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
             setUnreadCount(0);
         } catch (error) {
             console.error('Failed to delete all notifications:', error);
+            notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
         }
     };
 
@@ -272,6 +277,7 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
                 }
             } catch (error) {
                 console.error('Failed to execute action:', error);
+                notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
             }
         } else if (action.onClick && typeof action.onClick === 'function') {
             action.onClick();

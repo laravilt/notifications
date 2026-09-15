@@ -47,6 +47,7 @@
         <button
             v-if="notification.dismissible !== false"
             @click="$emit('remove', notification.id)"
+            aria-label="Close"
             class="flex-shrink-0 text-current/60 hover:text-current transition-colors"
         >
             <X class="size-4" />

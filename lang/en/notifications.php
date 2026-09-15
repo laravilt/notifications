@@ -28,6 +28,7 @@ return [
     // Action notification messages
     'success' => 'Success',
     'error' => 'Error',
+    'action_failed' => 'Something went wrong. Please try again.',
     'warning' => 'Warning',
     'info' => 'Info',
 
