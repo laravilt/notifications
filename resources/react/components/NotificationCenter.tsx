@@ -139,7 +139,7 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
 
     const markAsRead = async (id: string) => {
         try {
-            await fetch(`/${latest.current.panelPath}/notifications/${id}/read`, {
+            const response = await fetch(`/${latest.current.panelPath}/notifications/${id}/read`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -147,9 +147,14 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
                 },
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
             const notification = notificationsRef.current.find((n) => n.id === id);
 
-            if (notification) {
+            // Only an unread -> read transition decrements (concurrent requests for the same id resolve twice)
+            if (notification && !notification.readAt) {
                 const readAt = new Date().toISOString();
                 setNotifications(notificationsRef.current.map((n) => (n.id === id ? { ...n, readAt } : n)));
                 setUnreadCount(Math.max(0, unreadCountRef.current - 1));
@@ -161,13 +166,17 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
 
     const markAllAsRead = async () => {
         try {
-            await fetch(`/${latest.current.panelPath}/notifications/read-all`, {
+            const response = await fetch(`/${latest.current.panelPath}/notifications/read-all`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken(),
                 },
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
 
             const readAt = new Date().toISOString();
             setNotifications(notificationsRef.current.map((n) => ({ ...n, readAt })));
@@ -179,13 +188,17 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
 
     const deleteNotification = async (id: string) => {
         try {
-            await fetch(`/${latest.current.panelPath}/notifications/${id}`, {
+            const response = await fetch(`/${latest.current.panelPath}/notifications/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken(),
                 },
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
 
             const index = notificationsRef.current.findIndex((n) => n.id === id);
 
@@ -207,13 +220,17 @@ export default function NotificationCenter({ pollingInterval = '30s' }: Notifica
 
     const deleteAllNotifications = async () => {
         try {
-            await fetch(`/${latest.current.panelPath}/notifications`, {
+            const response = await fetch(`/${latest.current.panelPath}/notifications`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken(),
                 },
             });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
 
             setNotifications([]);
             setUnreadCount(0);

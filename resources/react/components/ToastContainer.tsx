@@ -38,6 +38,22 @@ export default function ToastContainer({ ref }: ToastContainerProps) {
         setToasts((current) => [...current, notification]);
     }, []);
 
+    // Inertia keeps omitted props on partial reloads, so the same flash can be read again on `finish`.
+    // Skip it instead of appending a second toast with the same id (and React key).
+    const lastFlashId = useRef<string | null>(null);
+
+    const addFlashToast = useCallback(
+        (notification: ToastNotification) => {
+            if (lastFlashId.current === notification.id) {
+                return;
+            }
+
+            lastFlashId.current = notification.id;
+            addToast(notification);
+        },
+        [addToast],
+    );
+
     const removeToast = useCallback((id: string) => {
         setToasts((current) => {
             const index = current.findIndex((t) => t.id === id);
@@ -66,9 +82,9 @@ export default function ToastContainer({ ref }: ToastContainerProps) {
         const flashNotification = (latestPage.current.props as any)['laravilt.notification'];
 
         if (flashNotification) {
-            addToast(flashNotification);
+            addFlashToast(flashNotification);
         }
-    }, [addToast, latestPage]);
+    }, [addFlashToast, latestPage]);
 
     // Listen for Inertia page loads using router.on('finish')
     useEffect(() => {
@@ -78,7 +94,7 @@ export default function ToastContainer({ ref }: ToastContainerProps) {
                 const flashNotification = (latestPage.current.props as any)['laravilt.notification'];
 
                 if (flashNotification) {
-                    addToast(flashNotification);
+                    addFlashToast(flashNotification);
                 }
             }, 0);
         });
@@ -89,7 +105,7 @@ export default function ToastContainer({ ref }: ToastContainerProps) {
                 removeFinishListener();
             }
         };
-    }, [addToast, latestPage]);
+    }, [addFlashToast, latestPage]);
 
     // Expose method to add toasts programmatically
     useImperativeHandle(ref, () => ({ addToast }), [addToast]);

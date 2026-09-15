@@ -55,6 +55,7 @@ export default function NotificationItem({ notification, getIcon, getColorClasse
             {notification.dismissible !== false && (
                 <button
                     onClick={() => onRemove?.(notification.id)}
+                    aria-label="Close"
                     className="flex-shrink-0 text-current/60 hover:text-current transition-colors"
                 >
                     <X className="size-4" />
