@@ -23,6 +23,7 @@ import {
     Info,
 } from 'lucide-vue-next';
 import { useLocalization } from '@/composables/useLocalization';
+import { notify } from '../composables/useNotification';
 
 const { trans } = useLocalization();
 
@@ -145,6 +146,7 @@ const markAsRead = async (id: string) => {
         }
     } catch (error) {
         console.error('Failed to mark notification as read:', error);
+        notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
     }
 };
 
@@ -168,6 +170,7 @@ const markAllAsRead = async () => {
         unreadCount.value = 0;
     } catch (error) {
         console.error('Failed to mark all notifications as read:', error);
+        notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
     }
 };
 
@@ -195,6 +198,7 @@ const deleteNotification = async (id: string) => {
         }
     } catch (error) {
         console.error('Failed to delete notification:', error);
+        notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
     }
 };
 
@@ -216,6 +220,7 @@ const deleteAllNotifications = async () => {
         unreadCount.value = 0;
     } catch (error) {
         console.error('Failed to delete all notifications:', error);
+        notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
     }
 };
 
@@ -251,6 +256,7 @@ const handleAction = async (notification: DatabaseNotification, action: any) => 
             }
         } catch (error) {
             console.error('Failed to execute action:', error);
+            notify(trans('notifications::notifications.action_failed'), undefined, 'danger');
         }
     } else if (action.onClick && typeof action.onClick === 'function') {
         action.onClick();
